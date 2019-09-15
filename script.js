@@ -4,16 +4,26 @@ const clock = document.querySelector('.clock');
 endDate.addEventListener('change', function (e) {
     e.preventDefault();
 
-    console.log(endDate.value);
-
     const temp = new Date(endDate.value);
-    console.log(temp);
 
     startClock(temp);
 })
 
 function startClock(d) {
-    console.log(timeLeft(d));
+    let tl = timeLeft(d);
+
+    for (let prop in tl) {
+        console.log(prop, tl[prop]);
+        let el = document.querySelector('.'+prop)
+        console.log(el);
+
+        if(el) {
+            console.log(el);
+            el.innerHTML = tl[prop];
+        }
+    }
+
+    // clock.innerHTML = tl.days + ' ' + tl.hours;
 }
 
 function timeLeft(d) {
