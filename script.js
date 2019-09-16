@@ -1,29 +1,51 @@
 const endDate = document.querySelector('input[name="endDate"]');
 const clock = document.querySelector('.clock');
 
+let timeInterval;
+let timeStop = true;
+
 endDate.addEventListener('change', function (e) {
     e.preventDefault();
+
+    clearInterval(timeInterval);
 
     const temp = new Date(endDate.value);
 
     startClock(temp);
+
+    timeStop = false;
+
 })
 
 function startClock(d) {
-    let tl = timeLeft(d);
 
-    for (let prop in tl) {
-        console.log(prop, tl[prop]);
-        let el = document.querySelector('.'+prop)
-        console.log(el);
+    function updateCounter() {
 
-        if(el) {
+        let tl = timeLeft(d);
+
+        if (tl.total <= 0) {
+            timeStop = false;
+        }
+
+        for (let prop in tl) {
+            console.log(prop, tl[prop]);
+            let el = document.querySelector('.' + prop)
             console.log(el);
-            el.innerHTML = tl[prop];
+
+            if (el) {
+                console.log(el);
+                el.innerHTML = tl[prop];
+            }
         }
     }
+    updateCounter();
 
-    // clock.innerHTML = tl.days + ' ' + tl.hours;
+    if (timeStop) {
+        timeInterval = setInterval(updateCounter, 1000);
+    } else {
+        clearInterval(timeInterval);
+    }
+
 }
 
 function timeLeft(d) {
