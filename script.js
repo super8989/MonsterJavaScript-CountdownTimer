@@ -4,12 +4,23 @@ const clock = document.querySelector('.clock');
 let timeInterval;
 let timeStop = true;
 
+const savedValue = localStorage.getItem('countdown') || false;
+
+if (savedValue) {
+    startClock(savedValue);
+    let inputValue = new Date(savedValue);
+    console.log(inputValue);
+    endDate.valueAsDate = inputValue;
+}
+
 endDate.addEventListener('change', function (e) {
     e.preventDefault();
 
     clearInterval(timeInterval);
 
     const temp = new Date(endDate.value);
+
+    localStorage.setItem('countdown', temp);
 
     startClock(temp);
 
@@ -28,12 +39,9 @@ function startClock(d) {
         }
 
         for (let prop in tl) {
-            console.log(prop, tl[prop]);
             let el = document.querySelector('.' + prop)
-            console.log(el);
 
             if (el) {
-                console.log(el);
                 el.innerHTML = tl[prop];
             }
         }
